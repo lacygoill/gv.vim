@@ -87,7 +87,7 @@ def Type(visual: bool): list<any>
 
   var sha: string = gv#sha()
   if !empty(sha)
-    return ['commit', call('FugitiveFind', [sha, b:git_dir])]
+    return ['commit', g:FugitiveFind(sha, b:git_dir)]
   endif
   return [0, 0]
 enddef
@@ -378,7 +378,7 @@ def Gv(
     return
   endif
 
-  var git_dir: string = call('FugitiveGitDir', [])
+  var git_dir: string = g:FugitiveGitDir()
   if empty(git_dir)
     Warn('not in git repo')
     return
@@ -410,7 +410,7 @@ def Gv(
       log_opts = opts1 + opts2 + paths1 + paths2
       Setup(git_dir, fugitive_repo.config('remote.origin.url'))
       List(fugitive_repo, log_opts)
-      call('FugitiveDetect', [@#])
+      g:FugitiveDetect(@#)
     endif
   catch
     Warn(v:exception)
